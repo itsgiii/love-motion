@@ -1,0 +1,809 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080714">
+<title>Love in Motion | A Little Universe of Love</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 45%,
+        #321333 0%, #170d29 38%, #080714 78%);
+    color: white;
+    font-family: Georgia, serif;
+}
+
+/* BACKGROUND */
+
+#space {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* MAIN */
+
+.container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 55px 20px 22px;
+}
+
+/* HEADER */
+
+.header {
+    animation: fadeDown 1.5s ease;
+}
+
+.eyebrow {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #f3a5d0;
+}
+
+h1 {
+    margin-top: 18px;
+    font-size: clamp(38px, 7vw, 68px);
+    font-weight: normal;
+    color: #ffe3f0;
+    text-shadow: 0 0 25px #ff4d9c;
+}
+
+.subtitle {
+    margin-top: 14px;
+    color: #cbb8d9;
+    font-size: 14px;
+}
+
+/* HEART AREA */
+
+.visual {
+    position: relative;
+    width: min(600px, 100%);
+    height: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#heartCanvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    z-index: 3;
+}
+
+.aura {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: #ff267e;
+    filter: blur(100px);
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.visual.active .aura {
+    opacity: .4;
+    animation: pulseAura 1.3s infinite alternate;
+}
+
+@keyframes pulseAura {
+    from { transform: scale(.8); }
+    to { transform: scale(1.3); }
+}
+
+/* ORBIT */
+
+.orbit {
+    position: absolute;
+    width: 360px;
+    height: 140px;
+    border: 1px solid rgba(255,145,205,.2);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    animation: rotateOrbit 15s linear infinite;
+}
+
+.orbit.two {
+    width: 410px;
+    height: 180px;
+    border-color: rgba(175,120,255,.18);
+    animation-duration: 22s;
+    animation-direction: reverse;
+}
+
+@keyframes rotateOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* CONTROLS */
+
+.controls {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#status {
+    color: #dfc9e6;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 15px 32px;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 50px;
+    background: linear-gradient(135deg,#ffb6d5,#e77cbd,#c89cf7);
+    color: #39132f;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255,80,160,.3);
+    transition: .3s;
+}
+
+button:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 40px rgba(255,80,160,.6);
+}
+
+button span {
+    margin-right: 8px;
+}
+
+.reset {
+    margin-top: 15px;
+    background: rgba(255,255,255,.07);
+    color: white;
+    border-color: rgba(255,255,255,.3);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* MESSAGE */
+
+.message {
+    display: none;
+    margin-top: 22px;
+    animation: fadeIn 1.3s ease;
+}
+
+.message.show {
+    display: block;
+}
+
+.message h2 {
+    color: #ffc2df;
+    font-size: 23px;
+    font-weight: normal;
+    margin-bottom: 13px;
+}
+
+.message p {
+    color: #e6d7ed;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.signature {
+    color: #ff9fc9;
+    margin-top: 14px;
+    font-size: 12px;
+}
+
+/* FOOTER */
+
+footer {
+    color: #897a95;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+footer span {
+    color: #ff76ad;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+    .container {
+        padding: 65px 15px 25px;
+    }
+
+    .eyebrow {
+        font-size: 8px;
+        letter-spacing: 3px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .visual {
+        height: 330px;
+    }
+
+    .orbit {
+        width: 270px;
+        height: 110px;
+    }
+
+    .orbit.two {
+        width: 300px;
+        height: 140px;
+    }
+
+    .message h2 {
+        font-size: 20px;
+    }
+
+    .message p {
+        font-size: 12px;
+    }
+}
+
+@media(max-height:650px) and (min-width:601px) {
+    .container {
+        padding-top: 20px;
+    }
+
+    .visual {
+        height: 310px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="space"></canvas>
+
+<main class="container">
+
+    <header class="header">
+        <div class="eyebrow">✦ A LITTLE UNIVERSE OF LOVE ✦</div>
+
+        <h1>Love in Motion</h1>
+
+        <p class="subtitle">
+            Some hearts shine brighter than the stars.
+        </p>
+    </header>
+
+    <section class="visual" id="visual">
+
+        <div class="aura"></div>
+
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+
+        <canvas id="heartCanvas"></canvas>
+
+    </section>
+
+    <section class="controls">
+
+        <p id="status">
+            A thousand little lights are waiting...
+        </p>
+
+        <button id="createButton">
+            <span>♥</span> Create Love
+        </button>
+
+        <div class="message" id="message">
+
+            <h2>For Someone Special ♡</h2>
+
+            <p>
+                In a universe full of stars,<br>
+                somehow, you are the one<br>
+                that shines the brightest.
+            </p>
+
+            <div class="signature">
+                Made with love, just for you ♥
+            </div>
+
+        </div>
+
+        <button id="resetButton" class="reset" hidden>
+            ↻ Start Again
+        </button>
+
+    </section>
+
+    <footer>
+        <span>♥</span> A LITTLE UNIVERSE MADE WITH LOVE
+    </footer>
+
+</main>
+
+<script>
+
+/* =====================================
+   LOVE IN MOTION
+   3D PARTICLE HEART ENGINE
+===================================== */
+
+const space = document.getElementById("space");
+const ctx = space.getContext("2d");
+
+const canvas = document.getElementById("heartCanvas");
+const heartCtx = canvas.getContext("2d");
+
+const visual = document.getElementById("visual");
+const statusText = document.getElementById("status");
+const message = document.getElementById("message");
+
+const createButton = document.getElementById("createButton");
+const resetButton = document.getElementById("resetButton");
+
+let W, H, CW, CH, DPR;
+
+let stars = [];
+let particles = [];
+let heartParticles = [];
+
+let started = false;
+let startTime = 0;
+let messageTimer = null;
+
+const TOTAL_HEART_PARTICLES = 1600;
+
+/* RANDOM */
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+/* RESIZE */
+
+function resize() {
+
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    space.width = W * DPR;
+    space.height = H * DPR;
+
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    const rect = canvas.getBoundingClientRect();
+
+    CW = rect.width;
+    CH = rect.height;
+
+    canvas.width = CW * DPR;
+    canvas.height = CH * DPR;
+
+    heartCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    makeStars();
+    makeParticles();
+}
+
+/* STAR FIELD */
+
+function makeStars() {
+
+    stars = [];
+
+    for (let i = 0; i < 140; i++) {
+
+        stars.push({
+            x: random(0, W),
+            y: random(0, H),
+            size: random(.5, 2),
+            alpha: random(.2, .9),
+            speed: random(.001, .003)
+        });
+    }
+}
+
+function drawStars(time) {
+
+    for (const s of stars) {
+
+        const alpha =
+            s.alpha + Math.sin(time * s.speed) * .3;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `rgba(255,235,250,${Math.max(.1,alpha)})`;
+
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#ff8ec5";
+
+        ctx.fill();
+    }
+
+    ctx.shadowBlur = 0;
+}
+
+/* FLOATING PARTICLES */
+
+function makeParticles() {
+
+    particles = [];
+
+    for (let i = 0; i < 75; i++) {
+
+        particles.push({
+            x: random(0, W),
+            y: random(0, H),
+            size: random(1, 2.5),
+            speed: random(.2, .8),
+            alpha: random(.2, .7)
+        });
+    }
+}
+
+function drawParticles() {
+
+    particles.forEach(p => {
+
+        p.y -= p.speed;
+
+        if (p.y < -5) {
+            p.y = H + 5;
+            p.x = random(0, W);
+        }
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `rgba(255,145,205,${p.alpha})`;
+
+        ctx.fill();
+    });
+}
+
+/* MATHEMATICAL HEART */
+
+function heartShape(t) {
+
+    return {
+        x: 16 * Math.pow(Math.sin(t), 3),
+
+        y:
+            13 * Math.cos(t)
+            - 5 * Math.cos(2*t)
+            - 2 * Math.cos(3*t)
+            - Math.cos(4*t)
+    };
+}
+
+/* GENERATE 3D PARTICLES */
+
+function generateHeart() {
+
+    heartParticles = [];
+
+    for (let i = 0; i < TOTAL_HEART_PARTICLES; i++) {
+
+        const t = random(0, Math.PI * 2);
+
+        const radius = Math.sqrt(Math.random());
+
+        const point = heartShape(t);
+
+        heartParticles.push({
+
+            x: point.x * radius,
+            y: point.y * radius,
+            z: random(-5, 5),
+
+            size: random(.7, 2.1),
+
+            alpha: random(.55, 1),
+
+            phase: random(0, Math.PI * 2),
+
+            speed: random(.8, 1.5)
+
+        });
+    }
+}
+
+/* 3D PROJECTION */
+
+function project3D(x, y, z, angle, pulse) {
+
+    const rx =
+        x * Math.cos(angle) - z * Math.sin(angle);
+
+    const rz =
+        x * Math.sin(angle) + z * Math.cos(angle);
+
+    const tilt = -.12;
+
+    const ry =
+        y * Math.cos(tilt) - rz * Math.sin(tilt);
+
+    const depth =
+        y * Math.sin(tilt) + rz * Math.cos(tilt);
+
+    const perspective =
+        420 / (420 + depth * 1.5);
+
+    const scale = 9.2 * pulse * perspective;
+
+    return {
+
+        x: CW / 2 + rx * scale,
+
+        y: CH / 2 - ry * scale,
+
+        depth: depth,
+
+        scale: perspective
+
+    };
+}
+
+/* DRAW HEART */
+
+function drawHeart(time) {
+
+    heartCtx.clearRect(0, 0, CW, CH);
+
+    if (!started) return;
+
+    const elapsed = time - startTime;
+
+    const pulse =
+        1 + Math.pow(
+            Math.max(0, Math.sin(elapsed * .004)),
+            16
+        ) * .12;
+
+    const rotation =
+        Math.sin(elapsed * .00035) * .3;
+
+    const rendered = [];
+
+    heartParticles.forEach(p => {
+
+        const movement =
+            Math.sin(
+                elapsed * .0015 * p.speed + p.phase
+            ) * .09;
+
+        const point = project3D(
+            p.x + movement,
+            p.y + movement,
+            p.z,
+            rotation,
+            pulse
+        );
+
+        rendered.push({
+
+            ...point,
+
+            size: p.size * point.scale,
+
+            alpha: p.alpha
+
+        });
+    });
+
+    rendered.sort((a, b) => b.depth - a.depth);
+
+    rendered.forEach(p => {
+
+        const depthAlpha =
+            Math.max(.3, 1 - Math.abs(p.depth) * .035);
+
+        const alpha = p.alpha * depthAlpha;
+
+        heartCtx.beginPath();
+
+        heartCtx.arc(
+            p.x,
+            p.y,
+            Math.max(.4, p.size),
+            0,
+            Math.PI * 2
+        );
+
+        const gradient =
+            heartCtx.createRadialGradient(
+                p.x,
+                p.y,
+                0,
+                p.x,
+                p.y,
+                p.size * 3.5
+            );
+
+        gradient.addColorStop(
+            0,
+            `rgba(255,245,252,${alpha})`
+        );
+
+        gradient.addColorStop(
+            .3,
+            `rgba(255,100,165,${alpha})`
+        );
+
+        gradient.addColorStop(
+            1,
+            "rgba(255,30,120,0)"
+        );
+
+        heartCtx.fillStyle = gradient;
+
+        heartCtx.shadowBlur = 12;
+        heartCtx.shadowColor = "#ff438f";
+
+        heartCtx.fill();
+    });
+
+    heartCtx.shadowBlur = 0;
+}
+
+/* MAIN LOOP */
+
+function animate(time) {
+
+    ctx.clearRect(0, 0, W, H);
+
+    drawStars(time);
+
+    drawParticles();
+
+    drawHeart(time);
+
+    requestAnimationFrame(animate);
+}
+
+/* CREATE LOVE */
+
+function createLove() {
+
+    if (started) return;
+
+    started = true;
+
+    startTime = performance.now();
+
+    generateHeart();
+
+    visual.classList.add("active");
+
+    createButton.hidden = true;
+
+    statusText.textContent =
+        "A thousand lights are coming together...";
+
+    messageTimer = setTimeout(() => {
+
+        if (!started) return;
+
+        statusText.textContent =
+            "You are the brightest part of my universe. ♥";
+
+        message.classList.add("show");
+
+        resetButton.hidden = false;
+
+    }, 2500);
+}
+
+/* RESET */
+
+function resetLove() {
+
+    clearTimeout(messageTimer);
+
+    started = false;
+
+    heartParticles = [];
+
+    message.classList.remove("show");
+
+    visual.classList.remove("active");
+
+    createButton.hidden = false;
+
+    resetButton.hidden = true;
+
+    statusText.textContent =
+        "A thousand little lights are waiting...";
+
+    heartCtx.clearRect(0, 0, CW, CH);
+}
+
+/* EVENTS */
+
+createButton.addEventListener("click", createLove);
+
+resetButton.addEventListener("click", resetLove);
+
+window.addEventListener("resize", resize);
+
+/* INITIALIZE */
+
+resize();
+
+requestAnimationFrame(animate);
+
+</script>
+
+</body>
+</html>
